@@ -673,7 +673,8 @@ namespace rapidxml
                 // __builtin_assume_aligned is a GCC directive; this paper -
                 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0886r0.pdf
                 // - outlines the directives for some other compilers. Looks
-                // like we can use std::assume_aligned from C++2020 onwards.
+                // like we can use std::assume_aligned from C++2020 onwards:
+                //   https://en.cppreference.com/w/cpp/memory/assume_aligned
                 header *new_header = reinterpret_cast<header *>(__builtin_assume_aligned(pool, RAPIDXML_ALIGNMENT));
 
                 new_header->previous_begin = m_begin;
