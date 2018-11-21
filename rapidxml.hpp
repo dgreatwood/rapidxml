@@ -669,7 +669,13 @@ namespace rapidxml
 
                 // Setup new pool in allocated memory
                 char *pool = align(raw_memory);
-                header *new_header = reinterpret_cast<header *>(pool);
+
+                // __builtin_assume_aligned is a GCC directive; this paper -
+                // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0886r0.pdf
+                // - outlines the directives for some other compilers. Looks
+                // like we can use std::assume_aligned from C++2020 onwards.
+                header *new_header = reinterpret_cast<header *>(__builtin_assume_aligned(pool, RAPIDXML_ALIGNMENT));
+
                 new_header->previous_begin = m_begin;
                 m_begin = raw_memory;
                 m_ptr = pool + sizeof(header);
